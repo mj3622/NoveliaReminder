@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from typing import Any
 
@@ -14,7 +15,8 @@ class YamlReader:
         Args:
             config_path: 配置文件的相对路径（相对于根路径）
         """
-        self.config_path = Path(config_path)
+        current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
+        self.config_path = current_dir / Path(config_path)
         self._config_data = {}
 
         # 自动尝试添加扩展名
@@ -71,4 +73,3 @@ class YamlReader:
             dict: 所有配置的字典
         """
         return self._config_data.copy()
-
