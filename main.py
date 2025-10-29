@@ -73,7 +73,7 @@ def get_all_favorite_wenku_books(token: str, delay: float = 0.5) -> Optional[Lis
                 "sort": "create"
             }
 
-            print(f"正在请求文库第 {page + 1} 页...")
+            print(f"\n正在请求文库第 {page + 1} 页...")
 
             response = requests.get(
                 "https://n.novelia.cc/api/user/favored-wenku/default",
@@ -165,8 +165,6 @@ def get_all_favorite_wenku_books(token: str, delay: float = 0.5) -> Optional[Lis
         if i < len(book_ids) - 1 and delay > 0:
             time.sleep(delay)
 
-    print(f"\n完成！成功获取 {len([n for n in all_books if n.get('title')])}/{len(book_ids)} 本小说详情")
-
     return all_books
 
 
@@ -206,7 +204,7 @@ def get_all_favorite_web_books(token: str, delay: float = 0.5) -> Optional[List[
                 "sort": "update"
             }
 
-            print(f"正在请求第 {page + 1} 页...")
+            print(f"正在请求Web第 {page + 1} 页...")
 
             response = requests.get(
                 "https://n.novelia.cc/api/user/favored-web/default",
@@ -240,11 +238,11 @@ def get_all_favorite_web_books(token: str, delay: float = 0.5) -> Optional[List[
                 }
                 all_books.append(book_info)
 
-            print(f"第 {page + 1} 页获取到 {len(items)} 条记录，总计 {len(all_books)} 条")
+            print(f"Web第 {page + 1} 页获取到 {len(items)} 条记录，总计 {len(all_books)} 条")
 
             # 如果返回的数据少于page_size，说明是最后一页
             if len(items) < page_size:
-                print("已获取所有数据")
+                print("已获取所有数据\n")
                 break
 
             # 翻到下一页
@@ -370,7 +368,9 @@ if __name__ == '__main__':
     if jwt is None:
         exit(1)
 
-    print(f"登录成功，JWT: {jwt}")
+    print(f"登录成功")
+
+    time.sleep(1)
 
     last_update = read_json('favorite_books.json')
     current_update = {"web": [], "wenku": []}
@@ -380,8 +380,6 @@ if __name__ == '__main__':
 
     books = get_all_favorite_web_books(jwt, delay=0.5)
     if books is not None:
-        print(f"共获取到 {len(books)} 本收藏的书籍")
-
         if last_update is not None:
             last_web_books = last_update.get("web", [])
             # 比较更新
@@ -404,7 +402,7 @@ if __name__ == '__main__':
 
     books = get_all_favorite_wenku_books(jwt, delay=0.5)
     if books is not None:
-        print(f"共获取到 {len(books)} 本收藏的文库书籍")
+        print(f"共获取到 {len(books)} 本收藏的文库书籍\n")
 
         if last_update is not None:
             last_wenku_books = last_update.get("wenku", [])
