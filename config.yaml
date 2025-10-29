@@ -1,0 +1,21 @@
+novelia:
+  username: "your_username"
+  password: "your_password"
+
+push:
+  mail:
+    # true or false
+    enabled: false
+    # sender
+    address: 'xxxx@163.com'
+    password: 'xxxxxxx'
+    # SMTP
+    host: 'smtp.163.com'
+    port: 25
+    # receiver
+    receiver: "xxxxxx@qq.com"
+  feishu:
+    enabled: true
+    webhook: "https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx"
+    # If you have set a signing secret for your Feishu bot, fill it in here. Otherwise, leave it empty.
+    signing_secret: ""
