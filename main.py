@@ -419,6 +419,12 @@ def build_message(web_updates: List[Dict], wenku_updates: List[Dict]) -> str:
 
 if __name__ == '__main__':
     config = YamlReader('config.yaml')
+    if not config.get_all():
+        print("未加载到有效配置，请检查 config.yaml 是否存在且格式正确。")
+        exit(1)
+    if not config.get('novelia.username') or not config.get('novelia.password'):
+        print("请在 config.yaml 中配置 novelia.username 与 novelia.password。")
+        exit(1)
 
     # 从配置读取请求重试与间隔（未配置则用默认值，保证服务器环境下更稳定）
     _retry_config["max_retries"] = int(config.get("request.retry_max_retries", 6))
@@ -436,7 +442,7 @@ if __name__ == '__main__':
         session=session,
     )
     if jwt is None:
-        if notify_on_final_failure:
+        if notify_on_final_failure and config.get("push"):
             send_notification(
                 config.get("push"),
                 "NoveliaReminder 登录失败",
@@ -506,8 +512,8 @@ if __name__ == '__main__':
     if web_update_books or wenku_update_books:
         send_notification(config.get("push"), "小说更新通知", build_message(web_update_books, wenku_update_books))
 
-    # 存在“重试后仍失败”的项且开启告警时，发送失败告警
-    if final_failures and notify_on_final_failure:
+    # 存在“重试后仍失败”的项且开启告警时，发送失败告警（仅当推送配置存在时）
+    if final_failures and notify_on_final_failure and config.get("push"):
         send_notification(
             config.get("push"),
             "NoveliaReminder 运行告警",

@@ -22,9 +22,9 @@ class Notifier:
         初始化推送器
 
         Args:
-            config: 推送配置字典
+            config: 推送配置字典；若为 None（如配置未加载），则按空配置处理，不启用任何推送。
         """
-        self.config = config
+        self.config = config if config is not None else {}
         self.initialize_services()
 
     def initialize_services(self):

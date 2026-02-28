@@ -13,10 +13,12 @@ class YamlReader:
         初始化 YAML 读取器并加载配置文件
 
         Args:
-            config_path: 配置文件的相对路径（相对于根路径）
+            config_path: 配置文件名或相对路径；相对路径为相对于项目根目录（main.py 所在目录）。
         """
-        current_dir = Path(os.path.dirname(os.path.abspath(__file__)))
-        self.config_path = current_dir / Path(config_path)
+        # 项目根目录 = utils 的上一级，保证 config.yaml 在根目录时可被找到
+        utils_dir = Path(os.path.dirname(os.path.abspath(__file__)))
+        project_root = utils_dir.parent
+        self.config_path = project_root / Path(config_path)
         self._config_data = {}
 
         # 自动尝试添加扩展名
