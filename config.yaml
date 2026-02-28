@@ -1,21 +1,30 @@
+# 轻小说机翻网账号
 novelia:
-  username: "your_username"
-  password: "your_password"
+  username: "your_username"   # 登录用户名
+  password: "your_password"  # 登录密码
 
+# 网络请求与重试（应对 SSL/连接不稳定，服务器环境下可适当拉高）
+request:
+  retry_max_retries: 6    # 单次请求失败后的重试次数
+  retry_backoff_sec: 5   # 重试间隔基数（秒），实际间隔为 1×、2×、3×…
+  delay_between_requests: 1.5  # 拉取列表/详情时，每次请求之间的间隔（秒）
+  notify_on_final_failure: true  # 重试后仍失败时是否发送告警通知（登录失败、列表拉取失败等）
+
+# 推送方式（邮件、飞书等）
 push:
   mail:
-    # true or false
+    # 是否启用邮件推送
     enabled: false
-    # sender
+    # 发件人
     address: 'xxxx@163.com'
     password: 'xxxxxxx'
-    # SMTP
+    # SMTP 服务器
     host: 'smtp.163.com'
     port: 25
-    # receiver
+    # 收件人
     receiver: "xxxxxx@qq.com"
   feishu:
     enabled: true
     webhook: "https://open.feishu.cn/open-apis/bot/v2/hook/xxxxxxxx"
-    # If you have set a signing secret for your Feishu bot, fill it in here. Otherwise, leave it empty.
+    # 若飞书机器人开启了签名校验，在此填写 signing_secret；未开启则留空
     signing_secret: ""
