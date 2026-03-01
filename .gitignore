@@ -1,2 +1,42 @@
-/.venv/
+# ===== macOS =====
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# ===== IDE / 编辑器 =====
 /.idea/
+/.vscode/
+*.swp
+*.swo
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+site-packages/
+*.so
+
+# ===== 虚拟环境 =====
+/.venv/
+/venv/
+/env/
+
+# ===== 测试 & 覆盖率 =====
+/test_notifier.py
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# ===== 运行时数据 =====
+/favorite_books.json
